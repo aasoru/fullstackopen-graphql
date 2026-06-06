@@ -1,26 +1,28 @@
 import { useState } from "react";
 import { useQuery } from "@apollo/client/react";
-import { ALL_BOOKS } from "../queries";
+import { ALL_BOOKS, ALL_BOOKS_BY_GENRE } from "../queries";
 
 const Books = (props) => {
   const [selectedGenre, setSelectedGenre] = useState(null);
-  const result = useQuery(ALL_BOOKS);
+
+  const allBooksResult = useQuery(ALL_BOOKS);
+  const filteredResult = useQuery(ALL_BOOKS_BY_GENRE, {
+    variables: { genre: selectedGenre },
+    skip: !selectedGenre,
+  });
 
   if (!props.show) {
     return null;
   }
 
-  if (result.loading) {
+  if (allBooksResult.loading || filteredResult.loading) {
     return <div>loading...</div>;
   }
 
-  const books = result.data.allBooks;
+  const allBooks = allBooksResult.data.allBooks;
+  const genres = [...new Set(allBooks.flatMap((b) => b.genres))];
 
-  const genres = [...new Set(books.flatMap((b) => b.genres))];
-
-  const booksToShow = selectedGenre
-    ? books.filter((b) => b.genres.includes(selectedGenre))
-    : books;
+  const booksToShow = selectedGenre ? filteredResult.data.allBooks : allBooks;
 
   return (
     <div>
@@ -49,7 +51,7 @@ const Books = (props) => {
             {genre}
           </button>
         ))}
-        <button onClick={() => setSelectedGenre(null)}>all genres</button>
+        <button onClick={() => setSelectedGenre(null)}>all gerenes</button>
       </div>
     </div>
   );
