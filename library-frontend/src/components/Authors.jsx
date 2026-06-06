@@ -34,7 +34,7 @@ const Authors = (props) => {
           ))}
         </tbody>
       </table>
-      <SetBornForm authors={authors} />
+      {props.token && <SetBornForm authors={authors} />}
     </div>
   );
 };
