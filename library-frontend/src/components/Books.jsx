@@ -27,6 +27,11 @@ const Books = (props) => {
   return (
     <div>
       <h2>books</h2>
+      {selectedGenre && (
+        <p>
+          in genre <strong>{selectedGenre}</strong>
+        </p>
+      )}
 
       <table>
         <tbody>
@@ -51,7 +56,7 @@ const Books = (props) => {
             {genre}
           </button>
         ))}
-        <button onClick={() => setSelectedGenre(null)}>all gerenes</button>
+        <button onClick={() => setSelectedGenre(null)}>all genres</button>
       </div>
     </div>
   );

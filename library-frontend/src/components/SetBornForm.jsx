@@ -21,8 +21,11 @@ const SetBornForm = ({ authors }) => {
       <h2>Set birthyear</h2>
       <form onSubmit={submit}>
         <div>
-          name{" "}
-          <select value={name} onChange={({ target }) => setName(target.value)}>
+          <select
+            name="name"
+            value={name}
+            onChange={({ target }) => setName(target.value)}
+          >
             {authors.map((a) => (
               <option key={a.id} value={a.name}>
                 {a.name}
@@ -31,8 +34,9 @@ const SetBornForm = ({ authors }) => {
           </select>
         </div>
         <div>
-          born{" "}
+          <label htmlFor="born">born</label>
           <input
+            id="born"
             type="number"
             value={born}
             onChange={({ target }) => setBorn(target.value)}
