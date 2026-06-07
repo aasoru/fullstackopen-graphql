@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useApolloClient } from "@apollo/client/react";
+import { useApolloClient, useSubscription } from "@apollo/client/react";
+import { BOOK_ADDED } from "./queries";
 import Authors from "./components/Authors";
 import Books from "./components/Books";
 import NewBook from "./components/NewBook";
@@ -13,6 +14,13 @@ const App = () => {
   );
   const [errorMessage, setErrorMessage] = useState(null);
   const client = useApolloClient();
+
+  useSubscription(BOOK_ADDED, {
+    onData: ({ data }) => {
+      const addedBook = data.data.bookAdded;
+      window.alert(`${addedBook.title} adde`);
+    },
+  });
 
   const notify = (message) => {
     setErrorMessage(message);
