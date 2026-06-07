@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useApolloClient, useSubscription } from "@apollo/client/react";
 import { BOOK_ADDED } from "./queries";
+import { addBookToCache } from "./utils/apolloCache";
 import Authors from "./components/Authors";
 import Books from "./components/Books";
 import NewBook from "./components/NewBook";
@@ -19,6 +20,7 @@ const App = () => {
     onData: ({ data }) => {
       const addedBook = data.data.bookAdded;
       window.alert(`${addedBook.title} adde`);
+      addBookToCache(client.cache, addedBook);
     },
   });
 
